@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script type="text/javascript" src="../js/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/require.js"></script>
+</head>
+<script>
+(function () {
+        var config = {
+            baseUrl: '../js'
+        };
+    
+        var dependencies = [
+            'dashboard'
+        ];
+        require(config, dependencies);
+      })();
+</script>
+<body style="background:white;">
+            <div class="slds-p-around_small" style="background:white;height:548px; width:986px;margin:auto;">
+                <div style="border:none;text-align:left;height:70px;padding-left:22px;">
+                    <img alt="MailPathLogo" id="MailPathLogo" src="images\MailPathLogo.png" />
+                </div>
+                <div class="slds-grid slds-p-horizontal--large"> 
+                    <div class="slds-vertical-tabs slds-col slds-size_3-of-8" style="margin-right:10px;font-weight:bold;">
+                        <ul class="slds-vertical-tabs__nav" style="width:85%;" role="tablist" aria-orientation="vertical">
+                            <li class="slds-vertical-tabs__nav-item slds-is-active" title="MailPath Jobs+Activities" role="presentation">
+                            <a class="slds-vertical-tabs__link" href="javascript:void(0)" role="tab" tabindex="0" aria-selected="true" aria-controls="slds-vertical-tabs-0" id="slds-vertical-tabs-0__nav">
+                                <span class="slds-vertical-tabs__left-icon">
+                                <div class="slds-icon_container" style="background:white;padding:1px;height:25px;">
+                                    <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;padding-top: 1px;">
+                                        
+                                    </div>
+                                </div>
+                                </span>
+                                <span class="" title="MailPath Jobs+Activities">Home - MailPath Jobs + Activities</span>
+                                <span class="slds-vertical-tabs__right-icon"></span>
+                            </a>
+                            </li>
+                        </ul>         
+                    </div>
+                    <div class="slds-box slds-col slds-size_5-of-8">
+                        <div class="slds-grid">
+                            <div class="slds-icon_container" style="background: #440099;padding:2px;height:30px;">
+                                <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;">
+                                    <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_DashboardIcon.png" style="height:25px;" />
+                                </div>
+                            </div>
+                            <div class="slds-col" style="padding-top:5px;margin-left: 10px;">
+                                <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);font-weight:bold;">Customer Dashboard | MailPath Job + Activities</legend>
+                            </div>
+                        </div>
+                        <div class="slds-box slds-grid" style="border: 2px solid rgb(169, 193, 213); padding-top:25px;margin-top:5px;">
+                            <div class="slds-col slds-size_3-of-12" id="jobsInQueue" style="padding-top:2px;cursor:pointer;cursor:hand;">
+                                <div class="slds-text-heading_large" id="jobsInQueueNumber" style="color:rgb(26, 48, 92);font-weight:bold;text-align:center;font-size:65px;"></div>
+                                <div class="slds-badge" style="background:rgb(56, 56, 154);color:white;font-weight:bold;text-align:center;margin-left:1px;padding: .15rem 1.5rem;">Jobs in queue</div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12"></div>  
+                            <div class="slds-col slds-3-of-12" id="activeJourneys" style="padding-top:2px;margin-left:8px;cursor:pointer;cursor:hand;">
+                                <div class="slds-text-heading_large" id="activeJourneysNumber" style="color:rgb(26, 48, 92);font-weight:bold;text-align:center;font-size:65px;"></div>
+                                <div class="slds-badge" style="background:rgb(56, 56, 154);color:white;font-weight:bold;text-align:center;margin-left:8px;padding: .15rem 1.3rem;">Active Journeys</div><br>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12"></div>                             
+                            <div class="slds-col slds-size_3-of-12" id="activitiesCreated" style="padding-top:2px;cursor:pointer;cursor:hand;">
+                                <div class="slds-text-heading_large"  id="activitiesCreatedNumber" style="color:rgb(26, 48, 92);font-weight:bold;text-align:center;font-size:65px;"></div>
+                                <div class="slds-badge" style="background:rgb(56, 56, 154);color:white;font-weight:bold;text-align:center;padding: .15rem 0.9rem;">Activities Created</div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12"></div>
+                        </div>
+                        <div class="slds-grid" style="margin-top:25px;">
+                            <div class="slds-size_1-of-2" style="margin-right:10px;">
+                                <div class="slds-grid">
+                                    <div class="slds-icon_container" style="background: #440099;padding:2px;height:30px;">
+                                        <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;">
+                                            <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_ContactIcon.png" style="height:25px;" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-col" style="padding-top:5px;margin-left: 10px;">
+                                        <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);font-weight:bold;">My Sandy Account Team</legend>
+                                    </div>
+                                </div>
+                                <div class="slds-box" style="border: 2px solid rgb(169, 193, 213);background:rgb(115,208,212);padding:5px;margin-top:5px;">
+                                    <div class="slds-grid slds-text-color_inverse" style="padding:10px;">
+                                        <div class="slds-button_icon-container" id="contact-icon">
+                                            
+                                        </div>
+                                        <div class="slds-col slds-wrap" id="contact-data" style="padding-top:2px;padding-left:10px;width:130px;">
+
+                                        </div>
+                                    </div>
+                                    <div class="slds-border_top" style="border-top-color: rgb(111,163,190);text-align:right;">
+                                        <button id="contactbutton" class="slds-button slds-button_brand" style="height:20px;display: inline-flex;align-items: center;margin-top:5px;padding-left:10px;padding-right:10px;">Contact</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div style="text-align:center;height:40px;padding-top:25px;">
+                <img alt="MailPathLogo" id="MailPathLogo" src="images\SandyAlexanderLogo.png" />            
+            </div>
+
+            <!-- Activities Created Modal-->
+            <div class="report" id="activities-created-modal" style="display:none;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Activity Name">Activity Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Active Journey">Active Journey?</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Journey Name">Journey Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QTY in Queue">QTY in Queue</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Name">Product Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Type">Product Type</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QTY Rule">QTY Rule</div>
+                                        </th>            
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Frequency Rule">Frequency Rule</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Date Last in Prod">Date Last in Prod</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job QTY">Prev Job QTY</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Days">Prev Job Days</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Trigger">Prev Job Trigger</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Mailed">Prev Job Mailed</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Mailed YTD">Mailed YTD</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activities-created-body">
+                                </tbody>
+                            </table>                      
+                        </div>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- /Activities Created Modal-->
+
+            <!-- /Jobs in Queue Modal-->
+            <div class="report" id="jobs-queue-modal" style="display:none;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Activity Name">Activity Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QTY in Queue">QTY in Queue</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Name">Product Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Type">Product Type</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="QTY Rule">QTY Rule</div>
+                                        </th>            
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Frequency Rule">Frequency Rule</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Date Last in Prod">Date Last in Prod</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job QTY">Prev Job QTY</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Days">Prev Job Days</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Trigger">Prev Job Trigger</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Prev Job Mailed">Prev Job Mailed</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Mailed YTD">Mailed YTD</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jobs-queue-body">
+                                </tbody>
+                            </table>                      
+                        </div>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- /Jobs in Queue Modal-->
+
+            <!-- Active Journeys Modal-->
+            <div class="report" id="active-journeys-modal" style="display:none;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Journey Name">Journey Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Number of MailPath Activities">Number of MailPath Activities</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Number of Products in Journey">Number of Products in Journey</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="active-journeys-body">
+                                </tbody>
+                            </table>                      
+                        </div>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- /Active Journeys Modal-->
+
+            <!-- Product Modal-->
+            <div class="report" id="product-modal" style="display:none;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Name">Product Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Type">Product Type</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Activities">Total Activities</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Quantity Currently in Queue">Total Quantity Currently in Queue</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total into Production">Total into Production</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Produced YTD">Total Produced YTD</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-body">
+                                </tbody>
+                            </table>                      
+                        </div>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- /Product Modal-->
+
+            <!-- Product Type Modal-->
+            <div class="report" id="product-type-modal" style="display:none;">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Product Type">Product Type</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Products">Total Products</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Activities">Total Activities</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Quantity Currently in Queue">Total Quantity Currently in Queue</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total into job quantity Production">Total into job quantity Production</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total YTD">Total YTD</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Mailed">Total Mailed</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-type-body">
+                                </tbody>
+                            </table>                      
+                        </div>
+                    </div>
+                  </section>
+                  <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- /Product Type Modal-->
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="js/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="js/require.js"></script>
+    <script>
+    var slideIndex = 1;
+
+    // Next/previous controls
+    function plusSlides(n, id) {
+        showSlides(slideIndex += n, id);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n, id) {
+        showSlides(slideIndex = n, id);
+    }
+
+    function showSlides(n, id) {
+        var i;
+        var slides = document.getElementsByClassName("slides_" + id);
+        var dots = document.getElementsByClassName("dot_" + id);
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" slds-is-active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " slds-is-active";
+    }
+
+    //Closing info and error messages
+    function closeInfo(type){
+        $(type).css('visibility', 'hidden');
+    }
+
+    //Select Pieces functionality
+    function selectPiece(piece){
+        var piece = '#pieceselector_' + piece;
+        if($(piece).css('display') == 'block'){
+            $(piece).toggle();
+        } else {
+            $('.selectoractive').hide();
+            $(piece).toggle();
+        }
+    }
+
+    (function () {
+        var config = {
+            baseUrl: 'js'
+        };
+    
+        var dependencies = [
+            'customActivity'
+        ];
+        require(config, dependencies);
+      })();
+    </script>
+    <style>
+        .slds-radio--button [type=radio]:checked+.slds-radio--button__label, .slds-radio--button [type=radio]:checked+.slds-radio--faux, .slds-radio--button [type=radio]:checked+.slds-radio_button__label, .slds-radio--button [type=radio]:checked+.slds-radio_faux, .slds-radio--button [type=radio]:checked~.slds-radio--faux, .slds-radio--button [type=radio]:checked~.slds-radio_faux, .slds-radio_button [type=radio]:checked+.slds-radio--button__label, .slds-radio_button [type=radio]:checked+.slds-radio--faux, .slds-radio_button [type=radio]:checked+.slds-radio_button__label, .slds-radio_button [type=radio]:checked+.slds-radio_faux, .slds-radio_button [type=radio]:checked~.slds-radio--faux, .slds-radio_button [type=radio]:checked~.slds-radio_faux{
+            background-color: rgb(56, 56, 154);
+        }
+        
+        .slds-radio--button [type=radio]+.slds-radio--button__label, .slds-radio--button [type=radio]+.slds-radio--faux, .slds-radio--button [type=radio]+.slds-radio_button__label, .slds-radio--button [type=radio]+.slds-radio_faux, .slds-radio--button [type=radio]~.slds-radio--faux, .slds-radio--button [type=radio]~.slds-radio_faux, .slds-radio_button [type=radio]+.slds-radio--button__label, .slds-radio_button [type=radio]+.slds-radio--faux, .slds-radio_button [type=radio]+.slds-radio_button__label, .slds-radio_button [type=radio]+.slds-radio_faux, .slds-radio_button [type=radio]~.slds-radio--faux, .slds-radio_button [type=radio]~.slds-radio_faux{
+            color:rgb(149, 178, 203);
+        }
+        .slds-select_container:after, .slds-select_container:before {
+            content: none;
+        }
+        
+        .slds-carousel__image {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slds-carousel__image img{
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+    </style>
+</head>
+<body>
+        <input type="hidden" id="nameValidator"/>
+        <!-- Error messages container-->
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert" style="position:absolute; max-width:50%; left: 28%;visibility:hidden;">
+            <span class="slds-assistive-text">error</span>
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" >
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                </svg>
+            </span>
+            <h2 id="errorMessage">
+            </h2>
+            <div class="slds-notify__close">
+                <button class="slds-button slds-button_icon slds-button_icon-small slds-button_icon-inverse" title="Close" onclick="closeInfo('.slds-theme_error');">
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+        </div>
+        <!-- /Error messages container-->
+        <!-- Info messages container-->
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert" style="position:absolute; max-width:50%; left: 28%;visibility:hidden;">
+            <span class="slds-assistive-text">info</span>
+            <span class="slds-icon_container slds-icon-utility-user slds-m-right_x-small">
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#user"></use>
+                </svg>
+            </span>
+            <h2 id="infoMessage">
+            </h2>
+            <div class="slds-notify__close">
+                <button class="slds-button slds-button_icon slds-button_icon-small slds-button_icon-inverse" title="Close" onclick="closeInfo('.slds-theme_info');">
+                    <svg class="slds-button__icon" aria-hidden="true">
+                        <use xlink:href="css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+        </div>
+        <!-- /Info messages container-->
+
+        <!-- spinner: display this div and hide main grid div while loading data -->
+        <div class="spinner" style="display: none;">
+            <div class="demo-only" style="height: 6rem;">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+        <!--/ spinner -->
+
+        <div class="slds-p-around_small" style="background:white;">
+            <!-- Top logo-->
+            <div style="text-align:left;padding-bottom:10px;">
+                <img alt="MailPathLogo" id="MailPathLogo" src="images\MailPathLogo.png" /> 
+            </div>
+            <!-- /Top logo-->
+                <!-- Step 1-->
+                <div id="step1" class="step" style="display: none;">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-p-horizontal--small">
+                           <!-- Step header--> 
+                            <div style="background: white;margin-top: 10px; padding: 10px; border-radius: 5px;">
+                                <div class="slds-grid">
+                                    <div class="slds-icon_container" style="background: #440099;padding:1px;height:25px;">
+                                        <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;padding-top: 1px;">
+                                            <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_ProductsIcon.png" style="height:20px;" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_9-of-12" style="padding-top:3px;padding-left:4px;">
+                                        <legend class="slds-text-body_regular" style="color:rgb(56, 56, 154);font-weight:bold;">Product Types</legend>
+                                        <div class="slds-grid">
+                                            <div class="slds-text-body_regular slds-col slds-size_2-of-12" style="color:rgb(56, 56, 154);font-weight:bold;padding-top:5px;width:14%;">
+                                                Filter Products
+                                            </div> 
+                                            <div class="slds-col slds-size_3-of-12">
+                                                <div class="slds-form-element" style="padding-top:5px;">
+                                                    <div class="slds-form-element__control">
+                                                        <div class="slds-select_container">
+                                                            <select class="slds-select" id="productTypeSelect" style="height:20px;">
+                                                                <option value="All">All</option>
+                                                                <option value="Letter">Letter</option>
+                                                                <option value="Postcard">Postcard</option>
+                                                                <option value="Kit">Kit</option>
+                                                                <option value="Self Mailer">Self Mailer</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_3-of-12" style="padding-top:30px;">
+                                        <button class="slds-button slds-button_brand" id="requestnewproduct" style="height:20px;background:rgb(74,74,163);border-color:rgb(74,74,163);">Request New Product</button>
+                                    </div>          
+                                </div>                      
+                            </div>
+                            <!-- /Step header-->
+                            <!-- Step body-->
+                            <div style="background: white;margin-top: 10px;margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                                <div class="slds-grid">
+                                    <div class="slds-icon_container" style="background: #440099;padding:1px;height:25px;">
+                                        <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;padding-top: 1px;">
+                                            <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_SearchIcon.png" style="height:20px;" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-col" style="padding-top:3px;padding-left:4px;">
+                                        <legend class="slds-text-body_regular" style="color:rgb(56, 56, 154);font-weight:bold;">Available Pieces</legend>
+                                    </div>    
+                                </div>                
+                                <!-- available pieces container -->
+                                <div class="slds-box slds-scrollable_y" style="margin-top: 5px;height: 350px;border: 1px solid rgb(224, 229, 238);padding:0;" id="pieces-container">
+                        
+                                </div>
+                                <!-- /available pieces container -->            
+                            </div>
+                           <!-- /Step body--> 
+                        </div>
+                     </div>
+                    </div>
+                <!-- /Step 1-->
+                <!-- Step 2-->
+                <div id="step2" class="step" style="display:none;">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-p-horizontal--small">
+                           <!-- Step header--> 
+                            <div style="background: white;margin-top: 10px; padding: 8px 0px 6px 10px ; border-radius: 5px;">
+                                <div class="slds-grid">
+                                    <div class="slds-icon_container" style="background: #440099;padding:1px;height:25px;">
+                                        <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;padding-top: 1px;">
+                                            <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_ConfigIcon.png" style="height:20px;" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_9-of-12" style="padding-top:3px;padding-left:4px;">
+                                        <legend class="slds-text-body_regular" style="color:rgb(56, 56, 154);font-weight:bold;">Configure Activity + Connected Data</legend>
+                                    </div>        
+                                </div>
+                                <div class="slds-grid slds-box" style="height:50px;width:99%;padding:1px;margin-top:5px;">
+                                    <div class="slds-col slds-size_4-of-12 slds-border_right" style="padding-left:10px;padding-right:10px;"> 
+                                        <div>
+                                            <label for="activityname" style="color: rgb(74, 74, 163);font-size:12px;font-weight:bold;">Name</label>
+                                            <input placeholder="_Activity Name" id="activityname" name="activityname" class="slds-box" style="width:100%;padding: 1px 1px 1px 3px;border:1px solid rgb(74, 74, 163);margin-bottom:5px;font-size:12px;">
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-border_right" style="padding-left:10px;width:20%;">
+                                        <fieldset class="slds-form-element">
+                                            <legend style="color: rgb(74, 74, 163);font-size:12px;font-weight:bold;">
+                                               Mail Class</legend>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-radio_button-group" style="border-color:rgb(74, 74, 163);">
+                                                    <span class="slds-button slds-radio_button" style="line-height:1.1rem;">
+                                                        <input type="radio" name="mailclass" id="first-mailclass" value="First" />
+                                                        <label class="slds-radio_button__label" for="first-mailclass">
+                                                        <span class="slds-radio_faux">First</span>
+                                                        </label>
+                                                    </span>
+                                                    <span class="slds-button slds-radio_button" style="line-height:1.1rem;">
+                                                        <input type="radio" name="mailclass" id="marketing-mailclass" value="Marketing" />
+                                                        <label class="slds-radio_button__label" for="marketing-mailclass">
+                                                        <span class="slds-radio_faux">Marketing</span>
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="slds-col slds-size_5-of-12" style="padding-left:10px;"> 
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-size_4-of-12" style="margin-right:20px;">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <label for="quantity" style="color: rgb(74, 74, 163);font-size:12px;font-weight:bold;">Quantity</label>
+                                                        <div class="slds-select_container">
+                                                            <select class="slds-select"  name="quantity" id="quantity" style="height:20px;border:1px solid rgb(74, 74, 163);">
+                                                                <option value="0">0</option>
+                                                                <option value="1">1</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                                <option value="250">250</option>
+                                                                <option value="500">500</option>
+                                                                <option value="1000">1000</option>
+                                                                <option value="1500">1500</option>
+                                                                <option value="2500">2500</option>
+                                                                <option value="3000">3000</option>
+                                                                <option value="4000">4000</option>
+                                                                <option value="5000">5000</option>
+                                                                <option value="7000">7000</option>
+                                                                <option value="10000">10000</option>
+                                                                <option value="12000">12000</option>
+                                                                <option value="15000">15000</option>
+                                                                <option value="20000">20000</option>
+                                                                <option value="25000">25000</option>
+                                                                <option value="30000">30000</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            <div class="slds-col slds-size_2-of-12" style="vertical-align:bottom;margin-right:15px;">
+                                                <fieldset class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <label style="color: rgb(74, 74, 163);font-size:12px;">&nbsp;</label>
+                                                        <div class="slds-radio_button-group" style="border-color:rgb(74, 74, 163);">
+                                                            <span class="slds-button slds-radio_button" style="line-height:1.1rem;">
+                                                                <input type="radio" name="queuerule" id="queuerule-and" value="And" />
+                                                                <label class="slds-radio_button__label" for="queuerule-and">
+                                                                <span class="slds-radio_faux" style="padding-left:0.2rem;padding-right:0.2rem;">And</span>
+                                                                </label>
+                                                            </span>
+                                                            <span class="slds-button slds-radio_button" style="line-height:1.1rem;">
+                                                                <input type="radio" name="queuerule" id="queuerule-or" value="Or" />
+                                                                <label class="slds-radio_button__label" for="queuerule-or">
+                                                                <span class="slds-radio_faux" style="padding-left:0.2rem;padding-right:0.2rem;">Or</span>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="slds-col slds-size_6-of-12">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <label for="cadence" style="color: rgb(74, 74, 163);font-size:12px;font-weight:bold;">Cadence</label>
+                                                        <div class="slds-select_container">
+                                                            <select class="slds-select" name="cadence" id="cadence" style="height:20px;border:1px solid rgb(74, 74, 163);">
+                                                                <option value="1 Day">1 Day</option>
+                                                                <option value="2 Days">2 Days</option>
+                                                                <option value="3 Days">3 Days</option>
+                                                                <option value="4 Days">4 Days</option>
+                                                                <option value="5 Days">5 Days</option>
+                                                                <option value="6 Days">6 Days</option>
+                                                                <option value="7 Days">7 Days</option>
+                                                                <option value="8 Days">8 Days</option>
+                                                                <option value="9 Days">9 Days</option>
+                                                                <option value="10 Days">10 Days</option>
+                                                                <option value="11 Days">11 Days</option>
+                                                                <option value="12 Days">12 Days</option>
+                                                                <option value="13 Days">13 Days</option>
+                                                                <option value="14 Days">14 Days</option>
+                                                                <option value="15 Days">15 Days</option>
+                                                                <option value="16 Days">16 Days</option>
+                                                                <option value="17 Days">17 Days</option>
+                                                                <option value="18 Days">18 Days</option>
+                                                                <option value="19 Days">19 Days</option>
+                                                                <option value="20 Days">20 Days</option>
+                                                                <option value="21 Days">21 Days</option>
+                                                                <option value="22 Days">22 Days</option>
+                                                                <option value="23 Days">23 Days</option>
+                                                                <option value="24 Days">24 Days</option>
+                                                                <option value="25 Days">25 Days</option>
+                                                                <option value="26 Days">26 Days</option>
+                                                                <option value="27 Days">27 Days</option>
+                                                                <option value="28 Days">28 Days</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                
+                            </div>
+                            <!-- /Step header-->
+                            <!-- Step body-->
+                            <div style="background: white;margin-top: 10px;margin-bottom: 10px; padding: 10px; border-radius: 5px;">              
+                                <!-- available pieces container -->
+                                <div class="slds-box" style="height: 350px;border: 1px solid rgb(224, 229, 238);padding:10px;">
+                                <!-- available pieces --> 
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_6-of-12 slds-border_right" style="line-height:1.3;">
+                                            <div class="slds-col slds-size_6-of-12" style="margin-bottom:10px;padding:0px">
+                                                <div class="slds-carousel" id="selected-product-carousel">
+                                                    <div class="slds-carousel__stage" >
+                                                        <div class="slds-carousel__panels slds-box" id="selected-img-carousel-container" style="transform:translateX(-0%);border:2px solid rgb(224, 229, 238);padding:5px;height:140px;cursor:pointer;">
+
+                                                        </div>
+                                                        <ul class="slds-carousel__indicators" role="tablist" id="selected-img-carousel-selector">
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-tile__detail">
+                                                <dl class="slds-list_horizontal slds-wrap">
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Product Name:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductname"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Product Type:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproducttype"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Size:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductsize"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Colors:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductcolors"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Paper:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductpaper"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Finishing:</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductfinishing"></dd>
+                                                    <dt class="slds-text-body_small slds-item_label slds-text-color_weak slds-truncate" style="color:rgb(56, 56, 154);font-weight:bold;width:25%;text-align:left;">Product ID</dt>
+                                                    <dd class="slds-text-body_small slds-item_detail slds-truncate" style="color:black;font-weight:bold;width:75%;" id="selectedproductID"></dd>
+                                                </dl>
+                                            </div>                               
+                                        </div>
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <div class="slds-grid slds-gutters">
+                                                <div class="slds-col slds-size_4-of-12" style="padding-right:0;width:28%;">
+                                                    <legend class="slds-text-body_small" style="color:rgb(56, 56, 154);font-weight:bold;font-size:.79rem;">Data Mapping</legend>
+                                                </div>
+                                                <div class="slds-col slds-size_5-of-12" style="padding-top:1px;">
+                                                        <legend class="slds-text-body_small" style="font-weight:bold;font-size:.79rem;" id="de-name"></legend>
+                                                </div>
+                                                <div class="slds-col slds-size_2-of-12" style="padding-top:0px;">
+                                                    <button class="slds-button slds-button_brand" id="editMapping" style="border:none;height:19px;padding-left:10px;padding-right:10px;width:100px;background:rgb(74,74,163); white-space:nowrap;">Edit</button>
+                                                </div>
+                                            </div>
+                                            <div class="slds-scrollable_y" id="mapping-scroll">
+                                                <div class="slds-grid" style="margin-bottom:5px;">
+                                                    <div class="slds-col slds-size_5-of-12" style="width:45%;">
+                                                        <div class="slds-text-body_large" style="color:rgb(56, 56, 154);font-style:italic;font-weight:bold;padding-top:5px;text-align:center;">MailPath Data Fields</div>
+                                                    </div>
+                                                    <div class="slds-col" style="width:3%;"></div>
+                                                    <div class="slds-col slds-size_6-of-12" style="width:44%;">
+                                                        <div class="slds-text-body_large" style="color:rgb(56, 56, 154);font-style:italic;font-weight:bold;padding-top:5px;text-align:center;">Custom Mapping</div>
+                                                    </div>
+                                                    <div class="slds-col" style="width:7%;"></div>
+                                                </div>
+                                                <div id="mapping-container">
+                                                </div>                                                 
+                                            </div>
+                                            <div class="slds-text-heading_small" style="color:rgb(56, 56, 154);font-weight:bold;padding-top:5px;text-align:center;"><span id="mappedfieldnum" style="color:rgb(93,207,146);"></span> of <span id="totalfieldnum"></span> Fields Successfully Mapped</div>
+                                        </div>
+                                    </div>
+                                    <!-- /available pieces -->                         
+                                </div>
+                                <!-- /available pieces container -->              
+                            </div>
+                            <!-- /Step body-->
+                        </div>
+                        </div>
+                    </div>   
+                <!-- /Step 2-->
+                <!-- Step 3-->
+                <div id="step3" class="step" style="display:none;">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-p-horizontal--small">
+                            <!-- Step header-->
+                            <div style="background: white;margin-top: 10px; padding: 8px 0px 6px 10px ; border-radius: 5px;">
+                                <div class="slds-grid">
+                                    <div class="slds-icon_container" style="background: #440099;padding:1px;height:25px;">
+                                        <div class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true" style="text-align:center;padding-top: 1px;">
+                                            <img alt="MailPathLogo" id="MailPathLogo" src="images/SA_SummaryIcon.png" style="height:20px;"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_9-of-12" style="padding-top:4px;padding-left:4px;">
+                                        <legend class="slds-text-body_regular" style="color:rgb(56, 56, 154);font-weight:bold;"><span id="summarytitle"></span> Summary</legend>
+                                    </div>         
+                                </div>                
+                            </div>
+                            <!-- /Step header-->
+                            <!-- Step body-->
+                            <div style="background: white;margin-top: 10px;margin-bottom: 10px; padding: 40px; border-radius: 5px;">              
+                                <div>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryproductname"></legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryproducttype"></legend>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);">ACTIVITY DETAILS</legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryactivityname"></legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summarysize"></legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summarycolors"></legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summarypaper"></legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryfinishing"></legend>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);">PRODUCT ID</legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryproductid"></legend>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);">MAIL CLASS</legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summarymailclass"></legend>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);">QUEUE</legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;" id="summaryqueue"><span id="summaryquantity"></span> Pieces <span id="summaryqueuerule"></span> <span id="summarycadence"></span></legend>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <legend class="slds-text-heading_small" style="color:rgb(56, 56, 154);">DATA MAPPING</legend>
+                                    <legend class="slds-text-body_regular" style="color:rgb(57, 48, 97);font-weight:bold;"><span id="summarymappedfields" ></span> of <span id="summarytotalfields"></span> Fields Successfully Mapped</legend>
+                                </div>
+                            </div>
+                            <!-- /Step body-->
+                        </div>
+                    </div>
+                </div>
+                <!-- /Step 3-->
+                <!-- Bottom logo-->
+                <div style="text-align:center;height:40px;padding-top:10px;">
+                    <img alt="SandyAlexanderLogo" id="SandyAlexanderLogo" src="images\SandyAlexanderLogo.png" /> 
+                </div>
+                <!-- /Bottom logo -->
+        </div>
+        <!-- images Modal-->
+        <div class="imgmodal" id="image-modal" style="display:none;">
+            <section role="dialog" tabindex="-1" style="z-index:99999999;" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-modal__header_empty">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse modalclose" title="Close">
+                            <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                            <use xlink:href="../css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="thumbnail-display">
+                        <div class="slds-carousel" id="modal-carousel">
+                            <div class="slds-carousel__stage" >
+                                <div class="slds-carousel__panels slds-box" id="modal-carousel-container" style="transform:translateX(-0%);border:2px solid rgb(224, 229, 238);padding:5px;height:400px;cursor:pointer;">
+
+                                </div>
+                                <ul class="slds-carousel__indicators" role="tablist" id="modal-carousel-selector">
+
+                                </ul>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <!-- /images Modal-->
+    </body>
+</html>
